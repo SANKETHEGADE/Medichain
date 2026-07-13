@@ -1,0 +1,102 @@
+[
+  {
+    "index": 0,
+    "timestamp": "2026-07-11 16:34:58.422679",
+    "data": {
+      "type": "GENESIS",
+      "message": "MediChain AI Blockchain Initialized",
+      "hospital": "MediChain Network"
+    },
+    "previous_hash": "0",
+    "hash": "94eee43910695a6381cb886fbfa4da41d4afb1a675d15f594c39ad328dc044c8"
+  },
+  {
+    "index": 1,
+    "timestamp": "2026-07-11 16:34:58.426444",
+    "data": {
+      "patient_id": "MC001",
+      "name": "Sanket Hegade",
+      "age": 22,
+      "blood_group": "O+",
+      "allergies": [
+        "Penicillin"
+      ],
+      "chronic_diseases": [
+        "None"
+      ],
+      "past_surgeries": [
+        "None"
+      ],
+      "ai_predictions": {
+        "eye_disease": "normal",
+        "skin_disease": "normal",
+        "transfusion_suitable": true
+      },
+      "emergency_contact": "+91 9876543210",
+      "hospital": "MVJ Medical Center",
+      "type": "PATIENT_RECORD"
+    },
+    "previous_hash": "94eee43910695a6381cb886fbfa4da41d4afb1a675d15f594c39ad328dc044c8",
+    "hash": "9e7911306f20cc75f547056fe34ceddf29b9ed4c4cde340961aa4b3237cadac7"
+  },
+  {
+    "index": 2,
+    "timestamp": "2026-07-11 16:34:58.426539",
+    "data": {
+      "patient_id": "MC002",
+      "name": "John Doe",
+      "age": 45,
+      "blood_group": "A+",
+      "allergies": [
+        "Aspirin",
+        "Latex"
+      ],
+      "chronic_diseases": [
+        "Diabetes Type 2",
+        "Hypertension"
+      ],
+      "past_surgeries": [
+        "Appendectomy 2019"
+      ],
+      "ai_predictions": {
+        "eye_disease": "jaundice",
+        "skin_disease": "melanoma",
+        "transfusion_suitable": false
+      },
+      "emergency_contact": "+91 9876543211",
+      "hospital": "City General Hospital",
+      "type": "PATIENT_RECORD"
+    },
+    "previous_hash": "9e7911306f20cc75f547056fe34ceddf29b9ed4c4cde340961aa4b3237cadac7",
+    "hash": "63d647867fed1bc7eca83eb39c17be9a34ca9b04f302583c7eb1047ae50bfefb"
+  },
+  {
+    "index": 3,
+    "timestamp": "2026-07-11 16:34:58.426589",
+    "data": {
+      "patient_id": "MC003",
+      "name": "Priya Sharma",
+      "age": 32,
+      "blood_group": "B+",
+      "allergies": [
+        "None"
+      ],
+      "chronic_diseases": [
+        "Anemia"
+      ],
+      "past_surgeries": [
+        "None"
+      ],
+      "ai_predictions": {
+        "eye_disease": "anemia",
+        "skin_disease": "normal",
+        "transfusion_suitable": true
+      },
+      "emergency_contact": "+91 9876543212",
+      "hospital": "Apollo Hospital",
+      "type": "PATIENT_RECORD"
+    },
+    "previous_hash": "63d647867fed1bc7eca83eb39c17be9a34ca9b04f302583c7eb1047ae50bfefb",
+    "hash": "e9b69e58639ff7359133e455f0e9ef04ebb121f7249b62d64009abfbacb6d914"
+  }
+]

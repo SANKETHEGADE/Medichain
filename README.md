@@ -1,4 +1,4 @@
-# MediChain AI 🏥⛓️
+# MediChain AI 
 ### AI-Powered Healthcare Intelligence with Blockchain Security
 
 A multi-modal AI system that detects blood-related and skin diseases from medical images, assesses blood transfusion suitability, and stores patient records on an immutable blockchain with QR-based emergency access.
@@ -19,24 +19,24 @@ A multi-modal AI system that detects blood-related and skin diseases from medica
 
 ## Features
 
-### 🧠 AI Disease Detection
+###  AI Disease Detection
 - **Eye Analysis** — Detects jaundice, anemia, and cataract from fundus images using EfficientNet-B0 (68% accuracy)
 - **Skin Analysis** — Identifies melanoma, skin cancer, benign lesions, and 5 other conditions (79% accuracy)
 - **Blood Analysis** — Assesses blood transfusion suitability from donor parameters using Gradient Boosting (93% accuracy)
 
-### ⛓️ Blockchain Patient Records
+###  Blockchain Patient Records
 - Immutable patient records stored in a SHA-256 blockchain
 - Each record has a unique block hash for tamper-proof verification
 - Persistent storage — data survives server restarts
 - Full chain validation on every read
 
-### 📱 QR Emergency System
+###  QR Emergency System
 - Every registered patient gets a unique QR code
 - Doctors scan QR with built-in camera scanner
 - Instant retrieval of full medical history
 - Works even when patient is unconscious
 
-### 🚨 Emergency Lookup
+###  Emergency Lookup
 - Camera-based QR scanner for instant patient lookup
 - Manual ID entry fallback
 - Shows blood group, allergies, chronic diseases, past surgeries

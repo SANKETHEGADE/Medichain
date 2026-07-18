@@ -19,7 +19,7 @@ A multi-modal AI system that detects blood-related and skin diseases from medica
 
 ## Features
 
-###  AI Disease Detection
+###  AI Disease Detection 
 - **Eye Analysis** — Detects jaundice, anemia, and cataract from fundus images using EfficientNet-B0 (68% accuracy)
 - **Skin Analysis** — Identifies melanoma, skin cancer, benign lesions, and 5 other conditions (79% accuracy)
 - **Blood Analysis** — Assesses blood transfusion suitability from donor parameters using Gradient Boosting (93% accuracy)

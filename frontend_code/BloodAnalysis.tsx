@@ -2,7 +2,7 @@
 import { useState } from "react"
 import axios from "axios"
 import { API } from "../App"
-import { Droplets, Loader2 } from "lucide-react"
+import { Droplets, Loader2, Activity, CheckCircle, XCircle } from "lucide-react"
 
 export default function BloodAnalysis() {
   const [form, setForm] = useState({ recency: "", frequency: "", monetary: "", time_months: "" })
@@ -24,75 +24,142 @@ export default function BloodAnalysis() {
   }
 
   const fields = [
-    { key: "recency", label: "Recency (months since last donation)", placeholder: "e.g. 2" },
-    { key: "frequency", label: "Frequency (total donations)", placeholder: "e.g. 10" },
-    { key: "monetary", label: "Monetary (total blood cc)", placeholder: "e.g. 2500" },
-    { key: "time_months", label: "Time (months since first donation)", placeholder: "e.g. 24" },
+    { key: "recency",      label: "Recency",   sub: "Months since last donation",     placeholder: "e.g. 2",    min: 0, max: 74  },
+    { key: "frequency",    label: "Frequency", sub: "Total number of donations",       placeholder: "e.g. 10",   min: 1, max: 50  },
+    { key: "monetary",     label: "Monetary",  sub: "Total blood donated in c.c.",     placeholder: "e.g. 2500", min: 250, max: 12500 },
+    { key: "time_months",  label: "Time",      sub: "Months since first donation",     placeholder: "e.g. 24",   min: 2, max: 98  },
   ]
 
-  return (
-    <div>
-      <h1 style={{ fontSize: "24px", fontWeight: 700, marginBottom: "6px", color: "#e2e2e2" }}>
-        🩸 Blood Analysis
-      </h1>
-      <p style={{ color: "#444", marginBottom: "32px", fontSize: "14px" }}>
-        Assess blood transfusion suitability from donor parameters
-      </p>
+  const approved = result?.suitable_for_donation
+  const color = approved ? "#00FFB3" : "#FF3366"
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "24px", maxWidth: "800px" }}>
-        <div style={{ background: "#0d0d18", border: "1px solid #1a1a2e", borderRadius: "16px", padding: "24px" }}>
-          {fields.map(f => (
-            <div key={f.key} style={{ marginBottom: "18px" }}>
-              <label style={{ display: "block", fontSize: "12px", color: "#555", marginBottom: "8px", fontWeight: 600 }}>{f.label}</label>
-              <input type="number" placeholder={f.placeholder}
-                value={form[f.key as keyof typeof form]}
-                onChange={e => setForm(p => ({ ...p, [f.key]: e.target.value }))}
-                style={{
-                  width: "100%", padding: "11px 14px", background: "#080810",
-                  border: "1px solid #2a2a3a", borderRadius: "8px",
-                  color: "#e2e2e2", fontSize: "14px", outline: "none",
-                  fontFamily: "Inter, sans-serif"
-                }} />
-            </div>
-          ))}
-          <button onClick={analyze} disabled={loading}
-            style={{
-              width: "100%", padding: "13px", border: "none", borderRadius: "10px",
-              background: "linear-gradient(135deg, #ef4444, #a855f7)",
-              color: "white", fontSize: "14px", fontWeight: 600, cursor: "pointer",
-              display: "flex", alignItems: "center", justifyContent: "center", gap: "8px"
-            }}>
-            {loading ? <><Loader2 size={16} style={{ animation: "spin 1s linear infinite" }} /> Analyzing...</> : <><Droplets size={16} /> Analyze Blood</>}
+  return (
+    <div className="page grid-bg">
+      <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "6px" }}>
+        <Activity size={14} color="#FF3366" />
+        <span style={{ fontSize: "11px", color: "#FF3366", fontFamily: "var(--font-m)", letterSpacing: "2px" }}>
+          BLOOD TRANSFUSION ANALYSIS
+        </span>
+      </div>
+      <h1 className="section-title">Blood Suitability Check</h1>
+      <p className="section-sub">Enter donor parameters to assess blood transfusion suitability</p>
+
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "24px", maxWidth: "900px" }}>
+
+        {/* Form */}
+        <div className="glass" style={{ padding: "28px" }}>
+          <div style={{ fontSize: "11px", color: "var(--text-3)", letterSpacing: "1.5px", textTransform: "uppercase", marginBottom: "20px" }}>
+            RFMT Parameters
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: "18px", marginBottom: "24px" }}>
+            {fields.map(f => (
+              <div key={f.key}>
+                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "7px" }}>
+                  <label className="field-label" style={{ marginBottom: 0 }}>{f.label}</label>
+                  <span style={{ fontSize: "11px", color: "var(--text-3)" }}>{f.sub}</span>
+                </div>
+                <input
+                  type="number"
+                  className="input-field"
+                  placeholder={f.placeholder}
+                  min={f.min} max={f.max}
+                  value={form[f.key as keyof typeof form]}
+                  onChange={e => setForm(p => ({ ...p, [f.key]: e.target.value }))}
+                  onFocus={e => e.target.style.borderColor = "#FF336655"}
+                  onBlur={e => e.target.style.borderColor = "var(--border)"}
+                />
+              </div>
+            ))}
+          </div>
+
+          <button className="btn-primary" onClick={analyze} disabled={loading}
+            style={{ background: loading ? undefined : "linear-gradient(135deg, #FF3366, #AA0033)", width: "100%" }}>
+            {loading
+              ? <><Loader2 size={16} style={{ animation: "spin 1s linear infinite" }} /> Analyzing...</>
+              : <><Droplets size={16} /> Analyze Blood</>}
           </button>
         </div>
 
-        {result && (
-          <div style={{
-            background: "#0d0d18",
-            border: `1px solid ${result.suitable_for_donation ? "#22c55e44" : "#ef444444"}`,
-            borderRadius: "16px", padding: "24px"
-          }}>
-            <div style={{ fontSize: "32px", marginBottom: "12px" }}>
-              {result.suitable_for_donation ? "✅" : "❌"}
-            </div>
-            <div style={{ fontSize: "20px", fontWeight: 700, marginBottom: "8px",
-              color: result.suitable_for_donation ? "#22c55e" : "#ef4444" }}>
-              {result.recommendation}
-            </div>
-            <div style={{ fontSize: "14px", color: "#555", marginBottom: "20px" }}>
-              Donation Probability: {result.donation_probability}%
-            </div>
-            <div style={{ height: "8px", background: "#1a1a2e", borderRadius: "4px" }}>
+        
+        <div>
+          {!result ? (
+            <div className="glass" style={{
+              padding: "32px", height: "100%", minHeight: "360px",
+              display: "flex", flexDirection: "column",
+              alignItems: "center", justifyContent: "center", textAlign: "center"
+            }}>
               <div style={{
-                height: "100%", borderRadius: "4px",
-                width: `${result.donation_probability}%`,
-                background: result.suitable_for_donation ? "#22c55e" : "#ef4444"
-              }} />
+                width: "60px", height: "60px", borderRadius: "50%",
+                border: "1px solid var(--border)", display: "flex",
+                alignItems: "center", justifyContent: "center", marginBottom: "16px"
+              }}>
+                <Droplets size={24} color="var(--text-3)" />
+              </div>
+              <div style={{ fontSize: "14px", color: "var(--text-3)" }}>
+                Enter parameters to see analysis
+              </div>
+              <div style={{ fontSize: "12px", color: "var(--text-3)", marginTop: "8px", lineHeight: 1.6 }}>
+                RFMT Model · Gradient Boosting<br />93% accuracy · 748 samples
+              </div>
             </div>
-          </div>
-        )}
+          ) : (
+            <div className="glass fade-in" style={{ padding: "28px", borderColor: `${color}30`, height: "100%" }}>
+
+              
+              <div style={{ textAlign: "center", padding: "24px 0", borderBottom: "1px solid var(--border)", marginBottom: "24px" }}>
+                <div style={{
+                  width: "72px", height: "72px", borderRadius: "50%",
+                  background: `${color}15`, border: `2px solid ${color}40`,
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  margin: "0 auto 16px"
+                }}>
+                  {approved
+                    ? <CheckCircle size={32} color="#00FFB3" />
+                    : <XCircle size={32} color="#FF3366" />}
+                </div>
+                <div style={{ fontSize: "24px", fontWeight: 700, fontFamily: "var(--font-d)", color, letterSpacing: "-0.5px", marginBottom: "6px" }}>
+                  {approved ? "APPROVED" : "NOT RECOMMENDED"}
+                </div>
+                <div style={{ fontSize: "13px", color: "var(--text-2)" }}>
+                  {approved ? "Suitable for blood donation" : "Not suitable for blood donation"}
+                </div>
+              </div>
+
+              
+              <div style={{ marginBottom: "20px" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "10px" }}>
+                  <span style={{ fontSize: "12px", color: "var(--text-2)" }}>Donation probability</span>
+                  <span style={{ fontSize: "14px", fontWeight: 700, color, fontFamily: "var(--font-m)" }}>
+                    {result.donation_probability}%
+                  </span>
+                </div>
+                <div className="progress-track" style={{ height: "8px" }}>
+                  <div className="progress-fill" style={{ width: `${result.donation_probability}%`, background: color }} />
+                </div>
+              </div>
+
+              
+              <div style={{
+                padding: "14px 16px", borderRadius: "10px",
+                background: `${color}08`, border: `1px solid ${color}20`,
+                display: "flex", justifyContent: "space-between", alignItems: "center"
+              }}>
+                <span style={{ fontSize: "12px", color: "var(--text-2)" }}>Risk Level</span>
+                <span className="tag" style={{
+                  background: approved ? "var(--green-dim)" : "var(--red-dim)",
+                  color, border: `1px solid ${color}25`
+                }}>
+                  {result.risk_level}
+                </span>
+              </div>
+
+              <div style={{ marginTop: "20px", fontSize: "11px", color: "var(--text-3)", textAlign: "center", lineHeight: 1.6 }}>
+                Model: Gradient Boosting · Trained on UCI Blood Transfusion Dataset
+              </div>
+            </div>
+          )}
+        </div>
       </div>
-      <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
     </div>
   )
 }

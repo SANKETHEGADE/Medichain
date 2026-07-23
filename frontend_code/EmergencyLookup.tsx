@@ -2,112 +2,217 @@
 import { useState } from "react"
 import axios from "axios"
 import { API } from "../App"
-import { AlertTriangle, Loader2, Search } from "lucide-react"
+import { Siren, Loader2, Search, Camera, Shield, Phone, Activity } from "lucide-react"
+import QRScanner from "./QRScanner.tsx"
 
 export default function EmergencyLookup() {
   const [patientId, setPatientId] = useState("")
   const [result, setResult] = useState<any>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
+  const [showScanner, setShowScanner] = useState(false)
 
-  const lookup = async () => {
-    if (!patientId.trim()) return
+  const lookup = async (id?: string) => {
+    const searchId = id || patientId
+    if (!searchId.trim()) return
     setLoading(true)
     setError("")
     setResult(null)
     try {
-      const res = await axios.get(`${API}/patient/${patientId.trim()}`)
+      const res = await axios.get(`${API}/patient/${searchId.trim()}`)
       setResult(res.data)
     } catch {
       setError("Patient not found in blockchain")
     } finally { setLoading(false) }
   }
 
+  const handleQRResult = (data: any) => {
+    setShowScanner(false)
+    setResult(data)
+    setPatientId(data.patient_data?.patient_id || "")
+  }
+
   const d = result?.patient_data
 
   return (
-    <div>
+    <div className="page grid-bg">
+      {showScanner && (
+        <QRScanner onResult={handleQRResult} onClose={() => setShowScanner(false)} />
+      )}
+
+      
+      <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "6px" }}>
+        <Activity size={14} color="#FFB340" />
+        <span style={{ fontSize: "11px", color: "#FFB340", fontFamily: "var(--font-m)", letterSpacing: "2px" }}>
+          EMERGENCY ACCESS
+        </span>
+      </div>
+      <h1 className="section-title">Emergency Lookup</h1>
+      <p className="section-sub">Scan patient QR code or enter ID to retrieve verified medical history instantly</p>
+
+      
       <div style={{
-        background: "rgba(239,68,68,0.08)", border: "1px solid rgba(239,68,68,0.2)",
-        borderRadius: "12px", padding: "16px 20px", marginBottom: "32px",
-        display: "flex", alignItems: "center", gap: "12px"
+        display: "flex", alignItems: "center", gap: "14px",
+        padding: "14px 20px", borderRadius: "12px", marginBottom: "28px",
+        background: "rgba(255,179,64,0.06)",
+        border: "1px solid rgba(255,179,64,0.2)", maxWidth: "720px"
       }}>
-        <AlertTriangle size={20} color="#ef4444" />
+        <Siren size={18} color="#FFB340" style={{ flexShrink: 0 }} />
         <div>
-          <div style={{ fontSize: "14px", fontWeight: 600, color: "#ef4444" }}>Emergency Mode</div>
-          <div style={{ fontSize: "12px", color: "#666" }}>Scan patient QR or enter ID to retrieve medical history instantly</div>
+          <div style={{ fontSize: "13px", fontWeight: 600, color: "#FFB340" }}>
+            Emergency Protocol Active
+          </div>
+          <div style={{ fontSize: "12px", color: "var(--text-2)", marginTop: "2px" }}>
+            Scan QR from patient ID card or enter Patient ID manually to retrieve full medical record from blockchain
+          </div>
         </div>
       </div>
 
-      <div style={{ display: "flex", gap: "12px", marginBottom: "32px", maxWidth: "500px" }}>
-        <input value={patientId} onChange={e => setPatientId(e.target.value)}
+      
+      <div style={{ display: "flex", gap: "10px", marginBottom: "28px", maxWidth: "720px" }}>
+        <input
+          value={patientId}
+          onChange={e => setPatientId(e.target.value)}
           onKeyDown={e => e.key === "Enter" && lookup()}
           placeholder="Enter Patient ID (e.g. MC001)"
+          className="input-field"
+          style={{ flex: 1, fontSize: "15px", padding: "13px 18px" }}
+          onFocus={e => e.target.style.borderColor = "#FFB34055"}
+          onBlur={e => e.target.style.borderColor = "var(--border)"}
+        />
+        <button onClick={() => setShowScanner(true)} className="btn-ghost"
+          style={{ border: "1px solid rgba(0,220,255,0.25)", color: "#00DCFF", gap: "8px", padding: "13px 18px" }}>
+          <Camera size={16} />
+          Scan QR
+        </button>
+        <button onClick={() => lookup()} disabled={loading}
+          className="btn-primary"
           style={{
-            flex: 1, padding: "13px 16px", background: "#0d0d18",
-            border: "1px solid #2a2a3a", borderRadius: "10px",
-            color: "#e2e2e2", fontSize: "14px", outline: "none",
-            fontFamily: "Inter, sans-serif"
-          }} />
-        <button onClick={lookup} disabled={loading}
-          style={{
-            padding: "13px 20px", border: "none", borderRadius: "10px",
-            background: "linear-gradient(135deg, #ef4444, #f59e0b)",
-            color: "white", cursor: "pointer", display: "flex",
-            alignItems: "center", gap: "8px", fontSize: "14px", fontWeight: 600
+            background: loading ? undefined : "linear-gradient(135deg, #FFB340, #CC7700)",
+            padding: "13px 20px"
           }}>
-          {loading ? <Loader2 size={16} style={{ animation: "spin 1s linear infinite" }} /> : <Search size={16} />}
-          Lookup
+          {loading
+            ? <Loader2 size={16} style={{ animation: "spin 1s linear infinite" }} />
+            : <><Search size={16} /> Lookup</>}
         </button>
       </div>
 
+      
       {error && (
-        <div style={{ color: "#ef4444", fontSize: "14px", marginBottom: "20px" }}>❌ {error}</div>
+        <div style={{
+          padding: "14px 18px", borderRadius: "10px", marginBottom: "20px",
+          background: "var(--red-dim)", border: "1px solid rgba(255,51,102,0.2)",
+          color: "#FF3366", fontSize: "13px", maxWidth: "720px"
+        }}>
+           {error}
+        </div>
       )}
 
+      
       {result && d && (
-        <div style={{ background: "#0d0d18", border: "1px solid #f59e0b44", borderRadius: "16px", padding: "28px", maxWidth: "700px" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "24px" }}>
-            <div>
-              <div style={{ fontSize: "22px", fontWeight: 700, color: "#e2e2e2" }}>{d.name}</div>
-              <div style={{ fontSize: "13px", color: "#555" }}>ID: {d.patient_id} | Block #{result.block_index}</div>
+        <div className="fade-in" style={{ maxWidth: "720px" }}>
+
+         
+          <div className="glass" style={{
+            padding: "24px 28px", marginBottom: "16px",
+            borderColor: "rgba(255,179,64,0.25)",
+            background: "rgba(255,179,64,0.04)"
+          }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+              <div>
+                <div style={{ fontSize: "26px", fontWeight: 700, fontFamily: "var(--font-d)", color: "var(--text-1)", letterSpacing: "-0.5px" }}>
+                  {d.name}
+                </div>
+                <div style={{ fontSize: "12px", color: "var(--text-2)", marginTop: "4px", fontFamily: "var(--font-m)" }}>
+                  ID: {d.patient_id} · Block #{result.block_index} · {d.hospital}
+                </div>
+              </div>
+              <div style={{ textAlign: "right" }}>
+                <span className="tag" style={{
+                  background: "rgba(255,51,102,0.1)",
+                  color: "#FF3366", border: "1px solid rgba(255,51,102,0.25)",
+                  fontSize: "12px", padding: "6px 14px"
+                }}>
+                   EMERGENCY
+                </span>
+              </div>
             </div>
-            <div style={{
-              padding: "8px 16px", borderRadius: "20px",
-              background: "rgba(239,68,68,0.1)", border: "1px solid rgba(239,68,68,0.2)",
-              color: "#ef4444", fontSize: "12px", fontWeight: 600
-            }}>🚨 EMERGENCY</div>
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
+         
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px", marginBottom: "16px" }}>
             {[
-              { label: "Age", value: d.age },
-              { label: "Blood Group", value: d.blood_group, highlight: true },
-              { label: "Emergency Contact", value: d.emergency_contact },
-              { label: "Hospital", value: d.hospital },
-              { label: "Allergies", value: d.allergies?.join(", ") || "None" },
-              { label: "Chronic Diseases", value: d.chronic_diseases?.join(", ") || "None" },
-              { label: "Past Surgeries", value: d.past_surgeries?.join(", ") || "None" },
-              { label: "Safe for Transfusion", value: d.ai_predictions?.transfusion_suitable ? "✅ YES" : "❌ NO", highlight: true },
+              { label: "Age",               value: `${d.age} years`,                      color: "#00DCFF",  highlight: false },
+              { label: "Blood Group",        value: d.blood_group,                         color: "#FF3366",  highlight: true  },
+              { label: "Emergency Contact",  value: d.emergency_contact,                   color: "#FFB340",  highlight: true  },
+              { label: "Allergies",          value: d.allergies?.join(", ") || "None",     color: "#FF3366",  highlight: false },
+              { label: "Chronic Diseases",   value: d.chronic_diseases?.join(", ") || "None", color: "#FFB340", highlight: false },
+              { label: "Past Surgeries",     value: d.past_surgeries?.join(", ") || "None",   color: "#00DCFF", highlight: false },
             ].map(item => (
-              <div key={item.label} style={{
-                background: "#080810", borderRadius: "10px", padding: "14px 16px",
-                border: item.highlight ? "1px solid #f59e0b44" : "1px solid #1a1a2e"
+              <div key={item.label} className="glass" style={{
+                padding: "16px 18px",
+                borderColor: item.highlight ? `${item.color}30` : "var(--border)",
+                background: item.highlight ? `${item.color}06` : "rgba(8,14,28,0.9)"
               }}>
-                <div style={{ fontSize: "11px", color: "#444", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.8px", marginBottom: "6px" }}>{item.label}</div>
-                <div style={{ fontSize: "14px", color: item.highlight ? "#f59e0b" : "#e2e2e2", fontWeight: item.highlight ? 700 : 400 }}>{item.value}</div>
+                <div style={{ fontSize: "10px", color: "var(--text-3)", letterSpacing: "1.5px", textTransform: "uppercase", marginBottom: "6px", fontWeight: 600 }}>
+                  {item.label}
+                </div>
+                <div style={{ fontSize: "15px", fontWeight: item.highlight ? 700 : 500, color: item.highlight ? item.color : "var(--text-1)" }}>
+                  {item.value}
+                </div>
               </div>
             ))}
           </div>
 
-          <div style={{ marginTop: "20px", padding: "12px 16px", background: "#080810", borderRadius: "10px", border: "1px solid #1a1a2e" }}>
-            <div style={{ fontSize: "11px", color: "#333", fontWeight: 600, marginBottom: "4px" }}>BLOCKCHAIN VERIFICATION</div>
-            <div style={{ fontSize: "11px", color: "#333", wordBreak: "break-all" }}>
-              Hash: {result.block_hash} | Valid: {result.blockchain_valid ? "✅" : "❌"}
+          
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
+            <div className="glass" style={{
+              padding: "18px",
+              borderColor: d.ai_predictions?.transfusion_suitable ? "rgba(0,255,179,0.25)" : "rgba(255,51,102,0.25)",
+              background: d.ai_predictions?.transfusion_suitable ? "rgba(0,255,179,0.04)" : "rgba(255,51,102,0.04)"
+            }}>
+              <div style={{ fontSize: "10px", color: "var(--text-3)", letterSpacing: "1.5px", textTransform: "uppercase", marginBottom: "8px" }}>
+                Safe for Transfusion
+              </div>
+              <div style={{ fontSize: "22px", fontWeight: 700, color: d.ai_predictions?.transfusion_suitable ? "#00FFB3" : "#FF3366" }}>
+                {d.ai_predictions?.transfusion_suitable ? "YES" : "NO"}
+              </div>
+            </div>
+
+            <div className="glass" style={{ padding: "18px" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "8px" }}>
+                <Shield size={14} color="#00DCFF" />
+                <div style={{ fontSize: "10px", color: "var(--text-3)", letterSpacing: "1.5px", textTransform: "uppercase", fontWeight: 600 }}>
+                  Blockchain Verified
+                </div>
+              </div>
+              <div style={{ fontSize: "11px", color: "var(--text-2)", fontFamily: "var(--font-m)", wordBreak: "break-all", lineHeight: 1.6 }}>
+                {result.block_hash?.slice(0, 28)}...<br />
+                <span style={{ color: result.blockchain_valid ? "#00FFB3" : "#FF3366" }}>
+                  {result.blockchain_valid ? "✓ Chain Valid" : "✗ Invalid"}
+                </span>
+              </div>
             </div>
           </div>
+
+          
+          {d.emergency_contact && (
+            <div style={{ marginTop: "16px" }}>
+              <a href={`tel:${d.emergency_contact}`}
+                style={{
+                  display: "flex", alignItems: "center", justifyContent: "center", gap: "10px",
+                  padding: "14px", borderRadius: "12px", textDecoration: "none",
+                  background: "rgba(255,179,64,0.08)", border: "1px solid rgba(255,179,64,0.25)",
+                  color: "#FFB340", fontSize: "14px", fontWeight: 600, transition: "all 0.2s"
+                }}>
+                <Phone size={16} />
+                Call Emergency Contact: {d.emergency_contact}
+              </a>
+            </div>
+          )}
         </div>
       )}
+
       <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
     </div>
   )

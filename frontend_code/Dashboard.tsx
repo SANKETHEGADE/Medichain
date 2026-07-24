@@ -42,7 +42,7 @@ export default function Dashboard({ setPage }: Props) {
   return (
     <div className="page grid-bg" style={{ position: "relative" }}>
 
-      {/* Header */}
+      
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "36px" }}>
         <div>
           <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "6px" }}>
@@ -68,7 +68,7 @@ export default function Dashboard({ setPage }: Props) {
         </div>
       </div>
 
-      {/* Stat Cards */}
+      
       <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "16px", marginBottom: "32px" }}>
         {[
           {
@@ -97,7 +97,7 @@ export default function Dashboard({ setPage }: Props) {
             padding: "22px 24px", position: "relative", overflow: "hidden",
             borderColor: `${color}22`
           }}>
-            {/* Glow corner */}
+            
             <div style={{
               position: "absolute", top: 0, right: 0,
               width: "80px", height: "80px",
@@ -133,7 +133,7 @@ export default function Dashboard({ setPage }: Props) {
         ))}
       </div>
 
-      {/* Module Grid */}
+      
       <div style={{ marginBottom: "20px" }}>
         <div style={{ fontSize: "11px", color: "var(--text-3)", letterSpacing: "2px", fontFamily: "var(--font-m)", marginBottom: "16px" }}>
           AI MODULES

@@ -64,9 +64,9 @@ export default function PatientRegister() {
 
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "24px", maxWidth: "960px" }}>
 
-        {/* Form */}
+        
         <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-          {/* Col 1 fields */}
+          
           <div className="glass" style={{ padding: "24px" }}>
             <div style={{ fontSize: "11px", color: "var(--text-3)", letterSpacing: "1.5px", textTransform: "uppercase", marginBottom: "18px" }}>
               Identity
@@ -88,7 +88,7 @@ export default function PatientRegister() {
             </div>
           </div>
 
-          {/* Col 2 fields */}
+          
           <div className="glass" style={{ padding: "24px" }}>
             <div style={{ fontSize: "11px", color: "var(--text-3)", letterSpacing: "1.5px", textTransform: "uppercase", marginBottom: "18px" }}>
               Medical History <span style={{ color: "var(--text-3)", fontWeight: 400 }}>(comma separated)</span>
@@ -118,7 +118,7 @@ export default function PatientRegister() {
           </button>
         </div>
 
-        {/* Result */}
+        
         <div>
           {!result ? (
             <div className="glass" style={{
@@ -144,7 +144,7 @@ export default function PatientRegister() {
             </div>
           ) : (
             <div className="glass fade-in" style={{ padding: "24px", borderColor: "#00DCFF30" }}>
-              {/* Success */}
+              
               <div style={{
                 display: "flex", alignItems: "center", gap: "10px",
                 marginBottom: "20px", paddingBottom: "16px",
@@ -167,7 +167,7 @@ export default function PatientRegister() {
                 </div>
               </div>
 
-              {/* Hash */}
+              
               <div style={{ marginBottom: "20px" }}>
                 <div className="field-label">Block Hash</div>
                 <div style={{
@@ -185,7 +185,7 @@ export default function PatientRegister() {
                 </div>
               </div>
 
-              {/* QR Code */}
+              
               <div>
                 <div className="field-label" style={{ marginBottom: "12px" }}>Patient QR Code</div>
                 <div style={{

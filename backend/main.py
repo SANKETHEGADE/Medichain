@@ -32,7 +32,7 @@ app.add_middleware(
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-# ── LOAD MODELS ───────────────────────────────────────────────
+
 print("Loading models...")
 
 eye_labels   = torch.load("models/eye_labels.pth",  map_location=device)
@@ -57,7 +57,7 @@ blood_scaler = joblib.load("models/blood_scaler.pkl")
 
 print("✅ All models loaded!")
 
-# ── BLOCKCHAIN ────────────────────────────────────────────────
+
 class Block:
     def __init__(self, index, data, previous_hash):
         self.index = index
@@ -103,14 +103,14 @@ class MediChainBlockchain:
 
 blockchain = MediChainBlockchain()
 
-# ── TRANSFORMS ────────────────────────────────────────────────
+
 img_transform = transforms.Compose([
     transforms.Resize((224, 224)),
     transforms.ToTensor(),
     transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
 ])
 
-# ── INFERENCE ─────────────────────────────────────────────────
+
 def analyze_image(model, idx2label, image_path):
     img = Image.open(image_path).convert("RGB")
     tensor = img_transform(img).unsqueeze(0).to(device)
@@ -127,7 +127,7 @@ def analyze_image(model, idx2label, image_path):
         "risk_level": "HIGH" if disease != "normal" else "LOW"
     }
 
-# ── ROUTES ────────────────────────────────────────────────────
+
 @app.get("/")
 def root():
     return {"message": "MediChain AI is running ✅", "blockchain_valid": blockchain.is_valid()}
@@ -199,7 +199,7 @@ def register_patient(patient: PatientRecord):
     data["type"] = "PATIENT_RECORD"
     block = blockchain.add_record(data)
 
-    # Generate QR
+   
     qr_data = json.dumps({
         "patient_id": patient.patient_id,
         "name": patient.name,

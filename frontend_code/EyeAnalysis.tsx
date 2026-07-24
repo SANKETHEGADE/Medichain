@@ -34,7 +34,7 @@ export default function EyeAnalysis() {
 
   return (
     <div className="page grid-bg">
-      {/* Header */}
+      
       <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "6px" }}>
         <Activity size={14} color="#00FFB3" />
         <span style={{ fontSize: "11px", color: "#00FFB3", fontFamily: "var(--font-m)", letterSpacing: "2px" }}>
@@ -46,7 +46,7 @@ export default function EyeAnalysis() {
 
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "24px", maxWidth: "900px" }}>
 
-        {/* Upload Panel */}
+        
         <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
           <div
             className="glass"
@@ -108,7 +108,7 @@ export default function EyeAnalysis() {
           </button>
         </div>
 
-        {/* Result Panel */}
+        
         <div>
           {!result ? (
             <div className="glass" style={{
@@ -129,7 +129,7 @@ export default function EyeAnalysis() {
             </div>
           ) : (
             <div className="glass fade-in" style={{ padding: "24px", borderColor: `${color}30` }}>
-              {/* Risk badge */}
+              
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
                 <span style={{ fontSize: "11px", color: "var(--text-2)", letterSpacing: "1px", textTransform: "uppercase" }}>
                   Diagnosis Result
@@ -142,7 +142,7 @@ export default function EyeAnalysis() {
                 </span>
               </div>
 
-              {/* Disease */}
+              
               <div style={{ marginBottom: "20px" }}>
                 <div style={{ fontSize: "32px", fontWeight: 700, fontFamily: "var(--font-d)", color, letterSpacing: "-0.5px", textTransform: "capitalize" }}>
                   {result.disease}
@@ -154,7 +154,7 @@ export default function EyeAnalysis() {
 
               <div className="divider" />
 
-              {/* Probabilities */}
+              
               <div style={{ fontSize: "11px", color: "var(--text-3)", letterSpacing: "1px", textTransform: "uppercase", marginBottom: "14px" }}>
                 All Predictions
               </div>
@@ -177,7 +177,7 @@ export default function EyeAnalysis() {
                   ))}
               </div>
 
-              {/* Icon */}
+              
               <div style={{ marginTop: "20px", display: "flex", alignItems: "center", gap: "8px" }}>
                 {result.risk_level === "HIGH"
                   ? <AlertCircle size={14} color="#FF3366" />

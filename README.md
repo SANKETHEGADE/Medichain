@@ -58,7 +58,7 @@ A multi-modal AI system that detects blood-related and skin diseases from medica
 
 ---
 
-## Model Performance
+## Model Performance 
 
 | Model | Task | Accuracy | Classes |
 |---|---|---|---|

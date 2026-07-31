@@ -26,7 +26,7 @@ export default function App() {
   return (
     <div style={{ display: "flex", minHeight: "100vh" }}>
 
-      {/* ══ SIDEBAR ══════════════════════════════════════════════ */}
+      
       <aside style={{
         width: "230px", position: "fixed", top: 0, left: 0, height: "100vh",
         background: "linear-gradient(160deg, #060C1C 0%, #03070F 100%)",
@@ -34,7 +34,7 @@ export default function App() {
         display: "flex", flexDirection: "column", zIndex: 100,
       }}>
 
-        {/* Logo */}
+        
         <div style={{ padding: "28px 22px 20px" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
             <div style={{ position: "relative", width: "36px", height: "36px" }}>
@@ -68,7 +68,7 @@ export default function App() {
           </div>
         </div>
 
-        {/* Status bar */}
+        
         <div style={{
           margin: "0 14px 16px",
           background: "rgba(0,255,179,0.06)",
@@ -86,7 +86,7 @@ export default function App() {
           </span>
         </div>
 
-        {/* Nav */}
+        
         <div style={{ padding: "0 10px", flex: 1 }}>
           <div style={{ fontSize: "9px", fontWeight: 600, color: "var(--text-3)", letterSpacing: "2px", padding: "4px 12px 10px" }}>
             MODULES
@@ -128,7 +128,7 @@ export default function App() {
           </div>
         </div>
 
-        {/* Footer */}
+        
         <div style={{ padding: "16px 22px", borderTop: "1px solid var(--border)" }}>
           <div style={{ fontSize: "10px", color: "var(--text-3)", lineHeight: 1.6 }}>
             EfficientNet-B0 · GB Classifier<br />
@@ -137,7 +137,7 @@ export default function App() {
         </div>
       </aside>
 
-      {/* ══ MAIN ═════════════════════════════════════════════════ */}
+      
       <main style={{ marginLeft: "230px", flex: 1, minHeight: "100vh" }}>
         {page === "dashboard" && <Dashboard setPage={setPage} />}
         {page === "eye"       && <EyeAnalysis />}

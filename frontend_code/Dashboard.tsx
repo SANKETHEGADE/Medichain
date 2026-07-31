@@ -72,7 +72,7 @@ export default function Dashboard({ setPage }: Props) {
         </div>
       </div>
 
-     
+      
       <div style={{ marginBottom: "52px" }}>
         <p className="label" style={{ marginBottom: "16px" }}>System Status</p>
         <div style={{

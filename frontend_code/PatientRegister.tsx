@@ -1,8 +1,7 @@
-
 import { useState } from "react"
 import axios from "axios"
 import { API } from "../App"
-import { UserPlus, Loader2, Activity, Shield, Copy, Check } from "lucide-react"
+import { Loader2, Copy, Check } from "lucide-react"
 
 export default function PatientRegister() {
   const [form, setForm] = useState({
@@ -36,176 +35,177 @@ export default function PatientRegister() {
     setTimeout(() => setCopied(false), 2000)
   }
 
-  const fields = [
-    { key: "patient_id",        label: "Patient ID",           placeholder: "e.g. MC001",            col: 1 },
-    { key: "name",              label: "Full Name",             placeholder: "e.g. John Doe",         col: 1 },
-    { key: "age",               label: "Age",                   placeholder: "e.g. 35",               col: 1 },
-    { key: "blood_group",       label: "Blood Group",           placeholder: "e.g. O+",               col: 1 },
-    { key: "allergies",         label: "Allergies",             placeholder: "Penicillin, Latex ...", col: 2 },
-    { key: "chronic_diseases",  label: "Chronic Diseases",      placeholder: "Diabetes, Hypertension ...", col: 2 },
-    { key: "past_surgeries",    label: "Past Surgeries",        placeholder: "Appendectomy 2019 ...", col: 2 },
-    { key: "emergency_contact", label: "Emergency Contact",     placeholder: "+91 9876543210",        col: 2 },
-    { key: "hospital",          label: "Hospital",              placeholder: "City General Hospital", col: 2 },
+  const fields1 = [
+    { key: "patient_id",        label: "Patient ID",        placeholder: "e.g. MC001"           },
+    { key: "name",              label: "Full Name",          placeholder: "e.g. John Doe"        },
+    { key: "age",               label: "Age",                placeholder: "e.g. 35"              },
+    { key: "blood_group",       label: "Blood Group",        placeholder: "e.g. O+"              },
+    { key: "hospital",          label: "Hospital",           placeholder: "e.g. City Hospital"   },
+    { key: "emergency_contact", label: "Emergency Contact",  placeholder: "+91 9876543210"        },
   ]
 
-  const col1 = fields.filter(f => f.col === 1)
-  const col2 = fields.filter(f => f.col === 2)
+  const fields2 = [
+    { key: "allergies",        label: "Allergies",        placeholder: "Penicillin, Latex (comma separated)"       },
+    { key: "chronic_diseases", label: "Chronic Diseases", placeholder: "Diabetes, Hypertension (comma separated)"  },
+    { key: "past_surgeries",   label: "Past Surgeries",   placeholder: "Appendectomy 2019 (comma separated)"       },
+  ]
 
   return (
-    <div className="page grid-bg">
-      <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "6px" }}>
-        <Activity size={14} color="#00DCFF" />
-        <span style={{ fontSize: "11px", color: "#00DCFF", fontFamily: "var(--font-m)", letterSpacing: "2px" }}>
-          BLOCKCHAIN REGISTRATION
-        </span>
-      </div>
-      <h1 className="section-title">Register Patient</h1>
-      <p className="section-sub">Add patient to the MediChain blockchain — generates tamper-proof record + QR code</p>
+    <div className="page">
+      <p className="label" style={{ marginBottom: "12px" }}>SHA-256 Blockchain · Immutable Records · QR Generation</p>
+      <h1 style={{ fontSize: "36px", fontWeight: 800, letterSpacing: "-1px", marginBottom: "8px" }}>
+        Register Patient
+      </h1>
+      <p style={{ color: "#555", marginBottom: "48px", fontSize: "14px", maxWidth: "480px" }}>
+        Add patient to the MediChain blockchain — generates tamper-proof record and emergency QR code
+      </p>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "24px", maxWidth: "960px" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px", maxWidth: "960px" }}>
 
-        {/* Form */}
-        <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-          {/* Col 1 fields */}
-          <div className="glass" style={{ padding: "24px" }}>
-            <div style={{ fontSize: "11px", color: "var(--text-3)", letterSpacing: "1.5px", textTransform: "uppercase", marginBottom: "18px" }}>
-              Identity
-            </div>
+        
+        <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+
+          <div className="card" style={{ padding: "24px" }}>
+            <div className="label" style={{ marginBottom: "18px" }}>Identity</div>
             <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
-              {col1.map(f => (
+              {fields1.map(f => (
                 <div key={f.key}>
-                  <label className="field-label">{f.label}</label>
-                  <input
-                    className="input-field"
-                    placeholder={f.placeholder}
+                  <label className="label" style={{ display: "block", marginBottom: "7px" }}>
+                    {f.label}
+                  </label>
+                  <input className="input" placeholder={f.placeholder}
                     value={form[f.key as keyof typeof form]}
-                    onChange={e => setForm(p => ({ ...p, [f.key]: e.target.value }))}
-                    onFocus={e => e.target.style.borderColor = "#00DCFF44"}
-                    onBlur={e => e.target.style.borderColor = "var(--border)"}
-                  />
+                    onChange={e => setForm(p => ({ ...p, [f.key]: e.target.value }))} />
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Col 2 fields */}
-          <div className="glass" style={{ padding: "24px" }}>
-            <div style={{ fontSize: "11px", color: "var(--text-3)", letterSpacing: "1.5px", textTransform: "uppercase", marginBottom: "18px" }}>
-              Medical History <span style={{ color: "var(--text-3)", fontWeight: 400 }}>(comma separated)</span>
+          <div className="card" style={{ padding: "24px" }}>
+            <div style={{ marginBottom: "18px" }}>
+              <div className="label" style={{ display: "inline" }}>Medical History</div>
+              <span style={{ fontSize: "11px", color: "#2a2a2a", marginLeft: "8px" }}>
+                comma separated
+              </span>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
-              {col2.map(f => (
+              {fields2.map(f => (
                 <div key={f.key}>
-                  <label className="field-label">{f.label}</label>
-                  <input
-                    className="input-field"
-                    placeholder={f.placeholder}
+                  <label className="label" style={{ display: "block", marginBottom: "7px" }}>
+                    {f.label}
+                  </label>
+                  <input className="input" placeholder={f.placeholder}
                     value={form[f.key as keyof typeof form]}
-                    onChange={e => setForm(p => ({ ...p, [f.key]: e.target.value }))}
-                    onFocus={e => e.target.style.borderColor = "#00DCFF44"}
-                    onBlur={e => e.target.style.borderColor = "var(--border)"}
-                  />
+                    onChange={e => setForm(p => ({ ...p, [f.key]: e.target.value }))} />
                 </div>
               ))}
             </div>
           </div>
 
-          <button className="btn-primary" onClick={register} disabled={loading}
-            style={{ background: loading ? undefined : "linear-gradient(135deg, #00DCFF, #0088CC)" }}>
+          <button className="btn btn-white" onClick={register}
+            disabled={loading} style={{ width: "100%", padding: "13px" }}>
             {loading
-              ? <><Loader2 size={16} style={{ animation: "spin 1s linear infinite" }} /> Registering on blockchain...</>
-              : <><UserPlus size={16} /> Register on Blockchain</>}
+              ? <><Loader2 size={14} style={{ animation: "spin 1s linear infinite" }} /> Registering on blockchain...</>
+              : "Register on Blockchain"}
           </button>
         </div>
 
-        {/* Result */}
-        <div>
-          {!result ? (
-            <div className="glass" style={{
-              padding: "32px", minHeight: "400px",
-              display: "flex", flexDirection: "column",
-              alignItems: "center", justifyContent: "center", textAlign: "center"
+        
+        {!result ? (
+          <div className="card" style={{
+            display: "flex", flexDirection: "column",
+            alignItems: "center", justifyContent: "center",
+            minHeight: "440px", textAlign: "center", padding: "40px"
+          }}>
+            <div style={{
+              width: "56px", height: "56px", borderRadius: "14px",
+              background: "#0f0f0f", border: "1px solid #1a1a1a",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              fontSize: "24px", marginBottom: "16px"
+            }}>🔐</div>
+            <div style={{ fontSize: "13px", color: "#333", lineHeight: 1.6, marginBottom: "12px" }}>
+              Fill in patient details<br />to register on blockchain
+            </div>
+            <div style={{ fontSize: "11px", color: "#222", lineHeight: 1.8 }}>
+              Records stored immutably on SHA-256 chain<br />
+              Each patient gets a unique QR code<br />
+              for instant emergency medical access
+            </div>
+          </div>
+        ) : (
+          <div className="card fade-up" style={{ padding: "24px" }}>
+
+            
+            <div style={{
+              display: "flex", alignItems: "center", gap: "12px",
+              padding: "14px 16px", background: "#0a1a0a",
+              border: "1px solid #1a2a1a", borderRadius: "8px", marginBottom: "20px"
             }}>
-              <div style={{
-                width: "64px", height: "64px", borderRadius: "16px",
-                background: "rgba(0,220,255,0.06)", border: "1px solid rgba(0,220,255,0.1)",
-                display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "16px"
-              }}>
-                <Shield size={28} color="var(--text-3)" />
-              </div>
-              <div style={{ fontSize: "14px", color: "var(--text-3)", marginBottom: "8px" }}>
-                Fill in patient details
-              </div>
-              <div style={{ fontSize: "12px", color: "var(--text-3)", lineHeight: 1.6 }}>
-                Patient will be registered on the<br />
-                MediChain blockchain with a unique<br />
-                QR code for emergency access
-              </div>
-            </div>
-          ) : (
-            <div className="glass fade-in" style={{ padding: "24px", borderColor: "#00DCFF30" }}>
-              {/* Success */}
-              <div style={{
-                display: "flex", alignItems: "center", gap: "10px",
-                marginBottom: "20px", paddingBottom: "16px",
-                borderBottom: "1px solid var(--border)"
-              }}>
-                <div style={{
-                  width: "32px", height: "32px", borderRadius: "8px",
-                  background: "rgba(0,255,179,0.1)", display: "flex",
-                  alignItems: "center", justifyContent: "center"
-                }}>
-                  <Check size={16} color="#00FFB3" />
-                </div>
-                <div>
-                  <div style={{ fontSize: "14px", fontWeight: 600, color: "#00FFB3" }}>
-                    Successfully Registered
-                  </div>
-                  <div style={{ fontSize: "11px", color: "var(--text-3)" }}>
-                    Block #{result.block_index} · MediChain Network
-                  </div>
-                </div>
-              </div>
-
-              {/* Hash */}
-              <div style={{ marginBottom: "20px" }}>
-                <div className="field-label">Block Hash</div>
-                <div style={{
-                  padding: "10px 14px", background: "rgba(0,0,0,0.3)",
-                  borderRadius: "8px", border: "1px solid var(--border)",
-                  display: "flex", alignItems: "center", justifyContent: "space-between", gap: "8px"
-                }}>
-                  <span style={{ fontSize: "11px", color: "var(--text-2)", fontFamily: "var(--font-m)", wordBreak: "break-all" }}>
-                    {result.block_hash?.slice(0, 32)}...
-                  </span>
-                  <button onClick={copyHash}
-                    style={{ background: "none", border: "none", cursor: "pointer", color: "var(--text-2)", flexShrink: 0 }}>
-                    {copied ? <Check size={14} color="#00FFB3" /> : <Copy size={14} />}
-                  </button>
-                </div>
-              </div>
-
-              {/* QR Code */}
+              <span style={{ fontSize: "18px" }}>✅</span>
               <div>
-                <div className="field-label" style={{ marginBottom: "12px" }}>Patient QR Code</div>
-                <div style={{
-                  background: "white", padding: "16px", borderRadius: "12px",
-                  display: "inline-block", width: "100%", textAlign: "center"
-                }}>
-                  <img
-                    src={`data:image/png;base64,${result.qr_code}`}
-                    style={{ width: "180px", height: "180px" }}
-                    alt="Patient QR"
-                  />
+                <div style={{ fontSize: "13px", fontWeight: 600, color: "#4ADE80" }}>
+                  Successfully Registered
                 </div>
-                <div style={{ fontSize: "11px", color: "var(--text-3)", textAlign: "center", marginTop: "10px" }}>
-                  Scan this QR in Emergency Lookup to retrieve instant medical history
+                <div style={{ fontSize: "11px", color: "#444", marginTop: "2px" }}>
+                  Block #{result.block_index} · MediChain Network
                 </div>
               </div>
             </div>
-          )}
-        </div>
+
+            
+            <div style={{ marginBottom: "20px" }}>
+              <div className="label" style={{ marginBottom: "8px" }}>Block Hash</div>
+              <div style={{
+                padding: "10px 14px", background: "#0D0D0D",
+                border: "1px solid #1a1a1a", borderRadius: "8px",
+                display: "flex", alignItems: "center",
+                justifyContent: "space-between", gap: "8px"
+              }}>
+                <span style={{
+                  fontSize: "11px", color: "#444",
+                  fontFamily: "monospace", wordBreak: "break-all"
+                }}>
+                  {result.block_hash?.slice(0, 36)}...
+                </span>
+                <button onClick={copyHash} style={{
+                  background: "none", border: "none",
+                  cursor: "pointer", color: "#444", flexShrink: 0,
+                  padding: "4px"
+                }}>
+                  {copied
+                    ? <Check size={13} color="#4ADE80" />
+                    : <Copy size={13} />}
+                </button>
+              </div>
+            </div>
+
+            <div className="divider" style={{ marginBottom: "20px" }} />
+
+            
+            <div>
+              <div className="label" style={{ marginBottom: "14px" }}>Emergency QR Code</div>
+              <div style={{
+                background: "#fff", padding: "20px",
+                borderRadius: "10px", display: "flex",
+                justifyContent: "center", marginBottom: "12px"
+              }}>
+                <img src={`data:image/png;base64,${result.qr_code}`}
+                  style={{ width: "170px", height: "170px" }} alt="QR" />
+              </div>
+              <div style={{
+                fontSize: "11px", color: "#333",
+                textAlign: "center", lineHeight: 1.6
+              }}>
+                Scan this QR in Emergency Lookup<br />
+                for instant verified medical history
+              </div>
+            </div>
+          </div>
+        )}
       </div>
+      <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
     </div>
+  )
+}
   )
 }

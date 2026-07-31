@@ -2,7 +2,7 @@
 import { useState } from "react"
 import axios from "axios"
 import { API } from "../App"
-import { Siren, Loader2, Search, Camera, Shield, Phone, Activity } from "lucide-react"
+import { Loader2, Search, Camera, Phone } from "lucide-react"
 import QRScanner from "./QRScanner.tsx"
 
 export default function EmergencyLookup() {
@@ -35,129 +35,131 @@ export default function EmergencyLookup() {
   const d = result?.patient_data
 
   return (
-    <div className="page grid-bg">
+    <div className="page">
       {showScanner && (
         <QRScanner onResult={handleQRResult} onClose={() => setShowScanner(false)} />
       )}
 
-      
-      <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "6px" }}>
-        <Activity size={14} color="#FFB340" />
-        <span style={{ fontSize: "11px", color: "#FFB340", fontFamily: "var(--font-m)", letterSpacing: "2px" }}>
-          EMERGENCY ACCESS
-        </span>
-      </div>
-      <h1 className="section-title">Emergency Lookup</h1>
-      <p className="section-sub">Scan patient QR code or enter ID to retrieve verified medical history instantly</p>
+      <p className="label" style={{ marginBottom: "12px" }}>SHA-256 Blockchain · Instant Access · QR Scanner</p>
+      <h1 style={{ fontSize: "36px", fontWeight: 800, letterSpacing: "-1px", marginBottom: "8px" }}>
+        Emergency Lookup
+      </h1>
+      <p style={{ color: "#555", marginBottom: "48px", fontSize: "14px", maxWidth: "480px" }}>
+        Scan patient QR code or enter ID to retrieve verified medical history instantly
+      </p>
 
       
       <div style={{
-        display: "flex", alignItems: "center", gap: "14px",
-        padding: "14px 20px", borderRadius: "12px", marginBottom: "28px",
-        background: "rgba(255,179,64,0.06)",
-        border: "1px solid rgba(255,179,64,0.2)", maxWidth: "720px"
+        display: "flex", alignItems: "flex-start", gap: "14px",
+        padding: "16px 20px", background: "#111",
+        border: "1px solid #1f1f1f", borderRadius: "10px",
+        marginBottom: "28px", maxWidth: "680px"
       }}>
-        <Siren size={18} color="#FFB340" style={{ flexShrink: 0 }} />
+        <span style={{ fontSize: "18px", flexShrink: 0 }}>🚨</span>
         <div>
-          <div style={{ fontSize: "13px", fontWeight: 600, color: "#FFB340" }}>
-            Emergency Protocol Active
+          <div style={{ fontSize: "13px", fontWeight: 600, color: "#fff", marginBottom: "3px" }}>
+            Emergency Protocol
           </div>
-          <div style={{ fontSize: "12px", color: "var(--text-2)", marginTop: "2px" }}>
-            Scan QR from patient ID card or enter Patient ID manually to retrieve full medical record from blockchain
+          <div style={{ fontSize: "12px", color: "#444", lineHeight: 1.6 }}>
+            Scan the QR code from the patient's ID card or enter their Patient ID manually
+            to retrieve their complete medical history from the blockchain instantly.
           </div>
         </div>
       </div>
 
       
-      <div style={{ display: "flex", gap: "10px", marginBottom: "28px", maxWidth: "720px" }}>
+      <div style={{
+        display: "flex", gap: "10px",
+        marginBottom: "32px", maxWidth: "680px"
+      }}>
         <input
+          className="input"
           value={patientId}
           onChange={e => setPatientId(e.target.value)}
           onKeyDown={e => e.key === "Enter" && lookup()}
           placeholder="Enter Patient ID (e.g. MC001)"
-          className="input-field"
-          style={{ flex: 1, fontSize: "15px", padding: "13px 18px" }}
-          onFocus={e => e.target.style.borderColor = "#FFB34055"}
-          onBlur={e => e.target.style.borderColor = "var(--border)"}
+          style={{ flex: 1, fontSize: "15px", padding: "13px 16px" }}
         />
-        <button onClick={() => setShowScanner(true)} className="btn-ghost"
-          style={{ border: "1px solid rgba(0,220,255,0.25)", color: "#00DCFF", gap: "8px", padding: "13px 18px" }}>
-          <Camera size={16} />
+        <button className="btn btn-outline" onClick={() => setShowScanner(true)}
+          style={{ padding: "13px 18px", gap: "8px" }}>
+          <Camera size={15} />
           Scan QR
         </button>
-        <button onClick={() => lookup()} disabled={loading}
-          className="btn-primary"
-          style={{
-            background: loading ? undefined : "linear-gradient(135deg, #FFB340, #CC7700)",
-            padding: "13px 20px"
-          }}>
+        <button className="btn btn-white" onClick={() => lookup()}
+          disabled={loading} style={{ padding: "13px 20px" }}>
           {loading
-            ? <Loader2 size={16} style={{ animation: "spin 1s linear infinite" }} />
-            : <><Search size={16} /> Lookup</>}
+            ? <Loader2 size={14} style={{ animation: "spin 1s linear infinite" }} />
+            : <><Search size={14} /> Lookup</>}
         </button>
       </div>
 
       
       {error && (
         <div style={{
-          padding: "14px 18px", borderRadius: "10px", marginBottom: "20px",
-          background: "var(--red-dim)", border: "1px solid rgba(255,51,102,0.2)",
-          color: "#FF3366", fontSize: "13px", maxWidth: "720px"
+          padding: "12px 16px", background: "#1a0a0a",
+          border: "1px solid #2a1a1a", borderRadius: "8px",
+          color: "#F87171", fontSize: "13px",
+          marginBottom: "20px", maxWidth: "680px"
         }}>
-           {error}
+          ❌ {error}
         </div>
       )}
 
       
       {result && d && (
-        <div className="fade-in" style={{ maxWidth: "720px" }}>
+        <div className="fade-up" style={{ maxWidth: "680px" }}>
 
-         
-          <div className="glass" style={{
-            padding: "24px 28px", marginBottom: "16px",
-            borderColor: "rgba(255,179,64,0.25)",
-            background: "rgba(255,179,64,0.04)"
+          
+          <div style={{
+            padding: "24px 28px", background: "#111",
+            border: "1px solid #1f1f1f", borderRadius: "12px",
+            marginBottom: "12px",
+            display: "flex", justifyContent: "space-between", alignItems: "center"
           }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-              <div>
-                <div style={{ fontSize: "26px", fontWeight: 700, fontFamily: "var(--font-d)", color: "var(--text-1)", letterSpacing: "-0.5px" }}>
-                  {d.name}
-                </div>
-                <div style={{ fontSize: "12px", color: "var(--text-2)", marginTop: "4px", fontFamily: "var(--font-m)" }}>
-                  ID: {d.patient_id} · Block #{result.block_index} · {d.hospital}
-                </div>
+            <div>
+              <div style={{
+                fontSize: "26px", fontWeight: 800,
+                letterSpacing: "-0.5px", marginBottom: "6px"
+              }}>
+                {d.name}
               </div>
-              <div style={{ textAlign: "right" }}>
-                <span className="tag" style={{
-                  background: "rgba(255,51,102,0.1)",
-                  color: "#FF3366", border: "1px solid rgba(255,51,102,0.25)",
-                  fontSize: "12px", padding: "6px 14px"
-                }}>
-                   EMERGENCY
-                </span>
+              <div style={{ fontSize: "12px", color: "#444" }}>
+                ID: {d.patient_id} · Block #{result.block_index} · {d.hospital}
               </div>
             </div>
+            <span className="tag" style={{
+              color: "#F87171", borderColor: "#2a1a1a",
+              background: "#1a0a0a", fontSize: "12px", padding: "5px 12px"
+            }}>
+              🚨 EMERGENCY
+            </span>
           </div>
 
-         
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px", marginBottom: "16px" }}>
+          
+          <div style={{
+            display: "grid", gridTemplateColumns: "1fr 1fr",
+            gap: "8px", marginBottom: "8px"
+          }}>
             {[
-              { label: "Age",               value: `${d.age} years`,                      color: "#00DCFF",  highlight: false },
-              { label: "Blood Group",        value: d.blood_group,                         color: "#FF3366",  highlight: true  },
-              { label: "Emergency Contact",  value: d.emergency_contact,                   color: "#FFB340",  highlight: true  },
-              { label: "Allergies",          value: d.allergies?.join(", ") || "None",     color: "#FF3366",  highlight: false },
-              { label: "Chronic Diseases",   value: d.chronic_diseases?.join(", ") || "None", color: "#FFB340", highlight: false },
-              { label: "Past Surgeries",     value: d.past_surgeries?.join(", ") || "None",   color: "#00DCFF", highlight: false },
+              { label: "Age",              value: `${d.age} years`,                        highlight: false },
+              { label: "Blood Group",      value: d.blood_group,                           highlight: true  },
+              { label: "Emergency Contact",value: d.emergency_contact,                     highlight: true  },
+              { label: "Allergies",        value: d.allergies?.join(", ") || "None",       highlight: false },
+              { label: "Chronic Diseases", value: d.chronic_diseases?.join(", ") || "None",highlight: false },
+              { label: "Past Surgeries",   value: d.past_surgeries?.join(", ") || "None",  highlight: false },
             ].map(item => (
-              <div key={item.label} className="glass" style={{
+              <div key={item.label} style={{
                 padding: "16px 18px",
-                borderColor: item.highlight ? `${item.color}30` : "var(--border)",
-                background: item.highlight ? `${item.color}06` : "rgba(8,14,28,0.9)"
+                background: item.highlight ? "#161616" : "#111",
+                border: `1px solid ${item.highlight ? "#222" : "#1a1a1a"}`,
+                borderRadius: "10px"
               }}>
-                <div style={{ fontSize: "10px", color: "var(--text-3)", letterSpacing: "1.5px", textTransform: "uppercase", marginBottom: "6px", fontWeight: 600 }}>
-                  {item.label}
-                </div>
-                <div style={{ fontSize: "15px", fontWeight: item.highlight ? 700 : 500, color: item.highlight ? item.color : "var(--text-1)" }}>
+                <div className="label" style={{ marginBottom: "6px" }}>{item.label}</div>
+                <div style={{
+                  fontSize: item.highlight ? "18px" : "14px",
+                  fontWeight: item.highlight ? 700 : 400,
+                  color: item.highlight ? "#fff" : "#888"
+                }}>
                   {item.value}
                 </div>
               </div>
@@ -165,31 +167,37 @@ export default function EmergencyLookup() {
           </div>
 
           
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
-            <div className="glass" style={{
-              padding: "18px",
-              borderColor: d.ai_predictions?.transfusion_suitable ? "rgba(0,255,179,0.25)" : "rgba(255,51,102,0.25)",
-              background: d.ai_predictions?.transfusion_suitable ? "rgba(0,255,179,0.04)" : "rgba(255,51,102,0.04)"
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px", marginBottom: "12px" }}>
+
+            
+            <div style={{
+              padding: "16px 18px",
+              background: d.ai_predictions?.transfusion_suitable ? "#0a1a0a" : "#1a0a0a",
+              border: `1px solid ${d.ai_predictions?.transfusion_suitable ? "#1a2a1a" : "#2a1a1a"}`,
+              borderRadius: "10px"
             }}>
-              <div style={{ fontSize: "10px", color: "var(--text-3)", letterSpacing: "1.5px", textTransform: "uppercase", marginBottom: "8px" }}>
-                Safe for Transfusion
-              </div>
-              <div style={{ fontSize: "22px", fontWeight: 700, color: d.ai_predictions?.transfusion_suitable ? "#00FFB3" : "#FF3366" }}>
-                {d.ai_predictions?.transfusion_suitable ? "YES" : "NO"}
+              <div className="label" style={{ marginBottom: "8px" }}>Safe for Transfusion</div>
+              <div style={{
+                fontSize: "20px", fontWeight: 700,
+                color: d.ai_predictions?.transfusion_suitable ? "#4ADE80" : "#F87171"
+              }}>
+                {d.ai_predictions?.transfusion_suitable ? "✅ YES" : "❌ NO"}
               </div>
             </div>
 
-            <div className="glass" style={{ padding: "18px" }}>
-              <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "8px" }}>
-                <Shield size={14} color="#00DCFF" />
-                <div style={{ fontSize: "10px", color: "var(--text-3)", letterSpacing: "1.5px", textTransform: "uppercase", fontWeight: 600 }}>
-                  Blockchain Verified
-                </div>
-              </div>
-              <div style={{ fontSize: "11px", color: "var(--text-2)", fontFamily: "var(--font-m)", wordBreak: "break-all", lineHeight: 1.6 }}>
-                {result.block_hash?.slice(0, 28)}...<br />
-                <span style={{ color: result.blockchain_valid ? "#00FFB3" : "#FF3366" }}>
-                  {result.blockchain_valid ? "✓ Chain Valid" : "✗ Invalid"}
+            
+            <div style={{
+              padding: "16px 18px", background: "#111",
+              border: "1px solid #1a1a1a", borderRadius: "10px"
+            }}>
+              <div className="label" style={{ marginBottom: "8px" }}>Blockchain Verified</div>
+              <div style={{
+                fontSize: "11px", color: "#444",
+                fontFamily: "monospace", lineHeight: 1.7
+              }}>
+                {result.block_hash?.slice(0, 24)}...<br />
+                <span style={{ color: result.blockchain_valid ? "#4ADE80" : "#F87171" }}>
+                  {result.blockchain_valid ? "✓ Chain valid" : "✗ Invalid"}
                 </span>
               </div>
             </div>
@@ -197,22 +205,27 @@ export default function EmergencyLookup() {
 
           
           {d.emergency_contact && (
-            <div style={{ marginTop: "16px" }}>
-              <a href={`tel:${d.emergency_contact}`}
-                style={{
-                  display: "flex", alignItems: "center", justifyContent: "center", gap: "10px",
-                  padding: "14px", borderRadius: "12px", textDecoration: "none",
-                  background: "rgba(255,179,64,0.08)", border: "1px solid rgba(255,179,64,0.25)",
-                  color: "#FFB340", fontSize: "14px", fontWeight: 600, transition: "all 0.2s"
-                }}>
-                <Phone size={16} />
-                Call Emergency Contact: {d.emergency_contact}
-              </a>
-            </div>
+            <a href={`tel:${d.emergency_contact}`} style={{
+              display: "flex", alignItems: "center", justifyContent: "center",
+              gap: "10px", padding: "14px", borderRadius: "10px",
+              textDecoration: "none", background: "#111",
+              border: "1px solid #1f1f1f", color: "#888",
+              fontSize: "14px", fontWeight: 500, transition: "all 0.15s"
+            }}
+              onMouseEnter={e => {
+                e.currentTarget.style.background = "#161616"
+                e.currentTarget.style.color = "#fff"
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.background = "#111"
+                e.currentTarget.style.color = "#888"
+              }}>
+              <Phone size={15} />
+              Call Emergency Contact: {d.emergency_contact}
+            </a>
           )}
         </div>
       )}
-
       <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
     </div>
   )

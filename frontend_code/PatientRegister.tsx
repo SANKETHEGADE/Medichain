@@ -62,7 +62,7 @@ export default function PatientRegister() {
 
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px", maxWidth: "960px" }}>
 
-        {/* ── Form ── */}
+        
         <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
 
           <div className="card" style={{ padding: "24px" }}>
@@ -110,7 +110,7 @@ export default function PatientRegister() {
           </button>
         </div>
 
-        {/* ── Result ── */}
+        
         {!result ? (
           <div className="card" style={{
             display: "flex", flexDirection: "column",
@@ -135,7 +135,7 @@ export default function PatientRegister() {
         ) : (
           <div className="card fade-up" style={{ padding: "24px" }}>
 
-            {/* Success banner */}
+            
             <div style={{
               display: "flex", alignItems: "center", gap: "12px",
               padding: "14px 16px", background: "#0a1a0a",
@@ -152,7 +152,7 @@ export default function PatientRegister() {
               </div>
             </div>
 
-            {/* Hash */}
+            
             <div style={{ marginBottom: "20px" }}>
               <div className="label" style={{ marginBottom: "8px" }}>Block Hash</div>
               <div style={{
@@ -181,7 +181,7 @@ export default function PatientRegister() {
 
             <div className="divider" style={{ marginBottom: "20px" }} />
 
-            {/* QR */}
+            
             <div>
               <div className="label" style={{ marginBottom: "14px" }}>Emergency QR Code</div>
               <div style={{

@@ -141,7 +141,7 @@ export default function PatientRegister() {
               padding: "14px 16px", background: "#0a1a0a",
               border: "1px solid #1a2a1a", borderRadius: "8px", marginBottom: "20px"
             }}>
-              <span style={{ fontSize: "18px" }}>✅</span>
+              <span style={{ fontSize: "18px" }}></span>
               <div>
                 <div style={{ fontSize: "13px", fontWeight: 600, color: "#4ADE80" }}>
                   Successfully Registered

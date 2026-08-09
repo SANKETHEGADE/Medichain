@@ -39,7 +39,7 @@ A multi-modal AI system that detects blood-related and skin diseases from medica
 ###  Emergency Lookup
 - Camera-based QR scanner for instant patient lookup
 - Manual ID entry fallback
-- Shows blood group, allergies, chronic diseases, past surgeries
+- Shows blood group, allergies, chronic diseases, past surgeries 
 - Blockchain verification badge on every record
 
 ---
@@ -87,7 +87,7 @@ medichain-ai/
 │   ├── src/
 │   │   ├── components/
 │   │   │   ├── Dashboard.tsx
-│   │   │   ├── EyeAnalysis.tsx
+│   │   │   ├── EyeAnalysis.tsx 
 │   │   │   ├── SkinAnalysis.tsx
 │   │   │   ├── BloodAnalysis.tsx
 │   │   │   ├── PatientRegister.tsx

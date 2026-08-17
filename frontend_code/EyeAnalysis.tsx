@@ -43,7 +43,7 @@ export default function EyeAnalysis() {
 
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px", maxWidth: "880px" }}>
 
-        {/* ── Upload ── */}
+        
         <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
           <div
             className={`upload-zone${drag ? " drag" : ""}`}
@@ -97,7 +97,7 @@ export default function EyeAnalysis() {
               : "Run Analysis"}
           </button>
 
-          {/* Model info */}
+          
           <div style={{
             padding: "14px 16px", background: "#0D0D0D",
             border: "1px solid #1a1a1a", borderRadius: "8px"
@@ -120,7 +120,7 @@ export default function EyeAnalysis() {
           </div>
         </div>
 
-        {/* ── Result ── */}
+        
         {!result ? (
           <div className="card" style={{
             display: "flex", flexDirection: "column",
@@ -140,7 +140,7 @@ export default function EyeAnalysis() {
         ) : (
           <div className="card fade-up" style={{ padding: "28px" }}>
 
-            {/* Header */}
+            
             <div style={{
               display: "flex", justifyContent: "space-between",
               alignItems: "center", marginBottom: "28px"
@@ -155,7 +155,7 @@ export default function EyeAnalysis() {
               </span>
             </div>
 
-            {/* Disease */}
+            
             <div style={{ marginBottom: "28px" }}>
               <div style={{
                 fontSize: "34px", fontWeight: 800, letterSpacing: "-1px",
@@ -171,7 +171,7 @@ export default function EyeAnalysis() {
 
             <div className="divider" style={{ marginBottom: "24px" }} />
 
-            {/* Probabilities */}
+            
             <div className="label" style={{ marginBottom: "16px" }}>All predictions</div>
             <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
               {Object.entries(result.all_probabilities)
@@ -205,7 +205,7 @@ export default function EyeAnalysis() {
                 ))}
             </div>
 
-            {/* Recommendation */}
+          
             <div style={{
               marginTop: "24px", padding: "12px 14px",
               background: "#0D0D0D", border: "1px solid #1a1a1a",
